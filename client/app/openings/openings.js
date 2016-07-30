@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.openings', [])
+angular.module('Khitwa.openings', [])
 .controller('OpeningsCtrl', function ($scope, Openings,$location, Auth) {
 
 	$scope.userId = window.userId;
