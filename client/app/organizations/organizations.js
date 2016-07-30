@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.organizations', [])
+angular.module('Khitwa.organizations', [])
 
 .controller('organizationsController', function ($scope, Organizations) {
 
