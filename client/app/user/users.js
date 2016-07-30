@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.users', [])
+angular.module('Khitwa.users', [])
 
 .controller('usersController', function ($scope,$location, Users) {
 
