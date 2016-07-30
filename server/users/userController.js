@@ -1,3 +1,4 @@
+var sendEmail = require('../emailNotifications.js');
 var User = require('./userModel.js');
     Q = require('q');
     jwt = require('jwt-simple');
@@ -9,14 +10,6 @@ var findAllusers = Q.nbind(User.find, User);
 
 module.exports = {
 
-
-  // Test : Post
-  // http://127.0.0.1:8000/api/users/signin
-  // body :
-  // {
-  //   "username" : "admin",
-  //   "password" : "admin"
-  // }
 
   signin: function (req, res) {
     var username = req.body.username;
@@ -46,13 +39,6 @@ module.exports = {
   },
 
 
-  // Test 'Post'
-  // http://127.0.0.1:8000/api/users/signup
-  // Body : {
-  //     "username" : "tawfik",
-  //     "password" : "admin"
-  // }
-
   signup : function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
@@ -63,6 +49,7 @@ module.exports = {
     var gender = req.body.gender;
     var phoneNumber = req.body.phoneNumber;
     var skills = req.body.skills;
+    var causes = req.body.causes;
     var picture = req.body.picture;    
 
     User.findOne({ userName: username })
@@ -78,6 +65,7 @@ module.exports = {
             gender: gender,
             phoneNumber: phoneNumber,
             skills: [skills],
+            causes: [causes],
             picture: picture
           });
           newUser.save(function(err, newUser) {
@@ -102,7 +90,7 @@ module.exports = {
       next(new Error('No token'));
     } else {
       var user = jwt.decode(token, 'secret');
-      findUser({username: user.username})
+      findUser({userName: user.userName})
         .then(function (foundUser) {
           if (foundUser) {
             res.send(200);
@@ -117,13 +105,80 @@ module.exports = {
   },
 
   getUser : function (req,res,next) {
-    
-    console.log(req.params.id);
-    var id=(req.params.id).toString();
-    User.findOne({_id : id}, function (err , user) {
+
+    User.findOne({userName: req.params.userName}, function (err , user) {
       if(err)
         res.status(500).send(err);
       res.json(user);
+    })
+  },
+
+  getAll : function (req, res, next){
+    User.find({}, function(err, users) {
+      if(err){
+        res.status(500).send(err);
+      }
+      res.json(users)
+    })
+  },
+
+  // a function that allows for the user to edit their basic info
+  editUser: function(req, res, next){
+    User.findOne({userName: req.params.userName}, function(err, user){
+      if(err){
+        res.status(500).send(err);
+      } else if (!user){
+        res.status(500).send(new Error ('User does not exist'));
+      } else {
+
+        user.firstName = req.body.firstName || user.firstName;
+        user.lastName = req.body.lastname || user.lastName;
+        user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth;
+        user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+        user.skills = req.body.skills || user.skills;
+        user.causes = req.body.causes || user.causes;
+        user.picture = req.body.picture || user.picture;
+
+        user.save(function(err, savedUser){
+          if(err){
+            res.status(500).send(error);
+          } else {
+            res.status(201).send(JSON.stringify(savedUser));
+          }
+        });
+      }
+    })
+  },
+
+  requestNewPass : function(req,res){
+    User.findOne({email: req.params.email}, function (err , user) {
+      if(err) {
+        res.status(500).send(err);
+      } else if(user) {
+        var newPass = Math.floor(Math.random()*100) + 'N' + Math.floor(Math.random()*100) + 'P' + Math.floor(Math.random()*100);
+        user.password = newPass;
+        user.save(function(err, savedUser){
+          if(err){
+            res.status(500).send(error);
+          } else {
+            var title = savedUser.gender==='Male' ? 'Mr. ' : 'Mrs. '
+            var emailBody = 'Dear ' + title;
+              emailBody += savedUser.lastName + ',\n\nYour Username is: ' +savedUser.userName;
+              emailBody += '\nYour New Password is: '+ newPass + '\n\nRegards,\nVolunteerHub Team';   
+
+            // email params
+            var mailOptions = {
+              to: req.params.email,
+              subject: 'New Password',
+              text: emailBody
+            };
+            sendEmail(mailOptions);
+            res.status(201).send('Password Sent By Email');
+          }
+        });
+      } else {
+        res.status(500).send('No matching email found');
+      }
     })
   }   
 

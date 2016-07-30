@@ -17,8 +17,10 @@ Icon
 node_modules/
 db/
 client/lib
-.bowerrc
 bower_components
+
+#API Keys
+client/app/config/api_keys.js
 
 # Floobits
 .floo
