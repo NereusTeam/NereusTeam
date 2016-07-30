@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.organizationCreateEdit', [])
+angular.module('Khitwa.organizationCreateEdit', [])
 
 .controller('organizationCreateOrEditController', function ($scope, $routeParams, $location, Organizations) {
 
