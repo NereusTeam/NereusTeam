@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.userEdit', [])
+angular.module('Khitwa.userEdit', [])
 
 .controller('userEditController', function ($scope, $routeParams, $location, Users) {
 
