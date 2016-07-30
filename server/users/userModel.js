@@ -10,38 +10,26 @@ var UserSchema = new mongoose.Schema({
 	userName: {
     type: String,
     required: true,
-    //unique: true
+    unique: true
   },
   password: {
     type: String,
-    //required: true
+    required: true
   },
   firstName: {
   	type: String,
-  	//required: true
+  	required: true
   },
   lastName: {
   	type: String,
-  	//required: true
+  	required: true
   },
-  email: {
-  	type: String,
-  	//required: true
-  },
-  dateOfBirth: {
-  	type: String
-  },
-  gender: {
-  	type: String
-  },
-  phoneNumber: {
-  	type: String,
-  	//required: true
-  },
-  skills: {
-  	type: [String],
-  	//required: true
-  },
+  email: String,
+  dateOfBirth: String,
+  gender: String,
+  phoneNumber: String,
+  skills: [String],
+  causes: [String],
   rate: Number,
   picture: String,
   salt: String,
@@ -50,25 +38,9 @@ var UserSchema = new mongoose.Schema({
 
 });
 
-// var User=mongoose.model('User', UserSchema);
-
-
-
-// User.comparePasswords = function (candidatePassword) {
-//   var savedPassword = this.password;
-//   return Q.Promise(function (resolve, reject) {
-//     bcrypt.compare(candidatePassword, savedPassword, function (err, isMatch) {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(isMatch);
-//       }
-//     });
-//   });
-// };
-
 
 var User = mongoose.model('User' , UserSchema);
+
 User.comparePassword = function(candidatePassword, savedPassword, res, cb){
   bcrypt.compare( candidatePassword, savedPassword, function(err, isMatch){
     if(err){
@@ -109,11 +81,4 @@ UserSchema.pre('save', function (next) {
 });
 
 
-// var newUser=new User({
-//   userName : 'tawfik'
-// });
-
-// newUser.save(function (err,newEntry) {
-//   console.log(newEntry);
-// })
 module.exports = User;

@@ -1,19 +1,17 @@
 {
-  "name": "khatwa",
-  "version": "1.1.0",
+  "name": "VolunteerHub",
+  "version": "2.1.0",
   "description": "Build out website for volunteer events",
-  "author": "Neruse Team<neruseteam3@gmail.com>",
+  "author": "kleinsbottle",
   "contributors": [
-    "Mihyar Almasalma <eng.mihyear@gmail.com>",
-    "Tawfik Kahwaje <twafik.kahwaje@gmail.com>",
-    "Maryam Elham <maryamelham7@gmail.com>"
+    "Salah Alomari",
+    "Bader Khalifeh",
+    "Saif Elokour"
   ],
   "scripts": {
-    "test": "gulp karma",
-    "start": "gulp",
-    "lint": "jscs ./"
+    "start": "./node_modules/.bin/nodemon --ignore node_modules server/server.js",
+    "postinstall": "npm install -g bower; bower install"
   },
-  "pre-commit": "lint",
   "repository": {
     "type": "git",
     "url": "https://github.com/NereusTeam/NereusTeam.git"
@@ -45,6 +43,8 @@
     "jwt-simple": "^0.2.0",
     "mongoose": "^4.1.0",
     "morgan": "^1.1.1",
+    "nodemailer": "^2.5.0",
+    "nodemailer-smtp-transport": "^2.6.0",
     "q": "^1.4.1",
     "request": "^2.36.0"
   }
