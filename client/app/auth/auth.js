@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.auth', [])
+angular.module('Khitwa.auth', [])
 
 .controller('AuthController', function ($scope, $window, $location, Auth, Users) {
   $scope.user = {};
@@ -9,7 +9,7 @@ angular.module('VolunteerHub.auth', [])
     Auth.signin({username:$scope.user.username,password:$scope.user.password})
       .then(function (data) {
         window.userId = data.userId;
-        $window.localStorage.setItem('com.VolunteerHub', data.token);
+        $window.localStorage.setItem('com.Khitwa', data.token);
         $window.localStorage.setItem('userId', data.userId);
         $location.path('/');
       })
@@ -25,7 +25,7 @@ angular.module('VolunteerHub.auth', [])
     Auth.signup($scope.user)
       .then(function (data) {
         window.userId = data.userId
-        $window.localStorage.setItem('com.VolunteerHub', data.token);
+        $window.localStorage.setItem('com.Khitwa', data.token);
         $window.localStorage.setItem('userId', data.userId);
         $location.path('/');
       })
