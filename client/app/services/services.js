@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.services', [])
+angular.module('Khitwa.services', [])
 
 .factory('Users', function ($http) {
     

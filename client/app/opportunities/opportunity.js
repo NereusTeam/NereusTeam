@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.opportunity', [])
+angular.module('Khitwa.opportunity', [])
 .controller('OpportunityCtrl', function ($scope, Opportunities , Openings, $window, $routeParams, Auth) {
 	$scope.opportunity = {};
 	$scope.initialize = function(){

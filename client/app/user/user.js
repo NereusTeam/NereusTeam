@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.user', [])
+angular.module('Khitwa.user', [])
 .controller('UserCtrl', function ($scope, $window, $location, Users, $routeParams, Auth) {
 
 	$scope.signout = function(){

@@ -1,18 +1,18 @@
-angular.module('VolunteerHub', [
-  'VolunteerHub.services',
-  'VolunteerHub.opportunityCreateEdit',
-  'VolunteerHub.auth',
-  'VolunteerHub.landing',
-  'VolunteerHub.opportunity',
-  'VolunteerHub.opportunities',
-  'VolunteerHub.user',
-  'VolunteerHub.users',
-  'VolunteerHub.userEdit',
-  'VolunteerHub.organizations',
-  'VolunteerHub.organizationProfile',
-  'VolunteerHub.organizationCreateEdit',
-  'VolunteerHub.openings',
-  'VolunteerHub.openingCreateEdit',
+angular.module('Khitwa', [
+  'Khitwa.services',
+  'Khitwa.opportunityCreateEdit',
+  'Khitwa.auth',
+  'Khitwa.landing',
+  'Khitwa.opportunity',
+  'Khitwa.opportunities',
+  'Khitwa.user',
+  'Khitwa.users',
+  'Khitwa.userEdit',
+  'Khitwa.organizations',
+  'Khitwa.organizationProfile',
+  'Khitwa.organizationCreateEdit',
+  'Khitwa.openings',
+  'Khitwa.openingCreateEdit',
   'ngRoute'
 ])
 .controller("HeaderController", function($scope, $location, Auth) {

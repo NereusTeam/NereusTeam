@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.landing', [])
+angular.module('Khitwa.landing', [])
 
 .controller('landingController', function ($scope,$location, Users) {
 

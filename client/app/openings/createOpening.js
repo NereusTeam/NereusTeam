@@ -1,4 +1,4 @@
-angular.module('VolunteerHub.openingCreateEdit', [])
+angular.module('Khitwa.openingCreateEdit', [])
 
 .controller('openingCreateOrEdit', function ($scope, $routeParams, $location, Openings) {
 	//TODO to send organization name and use a seperate function for create than edit
