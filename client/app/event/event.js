@@ -18,5 +18,6 @@ angular.module('Khitwa.event', [])
         console.error(error);
       });
 	}
+
 	$scope.showEvent();
 });

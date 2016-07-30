@@ -1,63 +1,281 @@
-angular.module('Khitwa.services', [])
+angular.module('VolunteerHub.services', [])
 
-.factory('Events', function ($http) {
-	var getEvents = function () {
+.factory('Users', function ($http) {
+    
+  var getUser = function(userName){
+    return $http({
+      method : 'GET',
+      url : '/api/user/'+userName
+    })
+    .then(function(res){
+      return res.data;
+    })
+  }
+
+  var getAll = function(userName){
+    return $http({
+      method : 'GET',
+      url : '/api/users/'
+    })
+    .then(function(res){
+      return res.data;
+    })
+  }
+
+  var editUser = function(user, userName){
+    return $http({
+      method : 'PUT',
+      url : '/api/user/'+userName+'/edit',
+      data: user
+    })
+    .then(function(resp){
+      return resp;
+    })
+  }     
+
+  var requestPass = function(email){
+    return $http({
+      method : 'GET',
+      url : '/api/users/requestPass/'+email
+    })
+    .then(function(res){
+      return res;
+    })
+  }
+
+  return {
+    getUser : getUser,
+    getAll : getAll,
+    editUser : editUser,
+    requestPass: requestPass
+  }
+
+})
+.factory('Opportunities', function ($http) {
+	var getAll = function () {
 		return $http({
 			method: 'GET',
-			url: '/api/events'
+			url: '/api/opportunities'
 		})
 		.then(function (res) {
 			return res.data;
 		});
   }
-  var createEvent = function (event) {
-      return $http({
-        method: 'POST',
-        url: '/api/createEvent',
-        data: event
-      })
-    }
-//need fixing: how to get an event based on their id
-  var getEvent = function(eventId){
+
+  var getOpportunities = function(organizationId){
     return $http({
       method: 'GET',
-      url: '/api/event/'+eventId
+      url: '/api/opportunities/'+organizationId
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  }
+
+  var createOpportunity = function (newOpportunity) {
+        console.log('b')
+
+      return $http({
+        method: 'PUT',
+        url: '/api/organization/add/'+ newOpportunity['_organizer'],
+        data: newOpportunity
+      })
+      .then(function (resp) {
+        return resp;
+      });
+    }
+//need fixing: how to get an event based on their id
+  var getOne = function(opportunityId){
+    return $http({
+      method: 'GET',
+      url: '/api/opportunity/'+opportunityId
+    })
+    .then(function(resp){
+      return resp.data;
+    })
+  }
+  var editOpportunity = function(opportunity){
+    return $http({
+      method: 'PUT',
+      url: '/api/opportunity/'+opportunity['_id'],
+      data : opportunity
+    })
+    .then(function (resp){
+      return resp;
+    });
+  };
+
+	return {
+    getAll : getAll,
+    createOpportunity: createOpportunity,
+    getOne: getOne, 
+    editOpportunity: editOpportunity,
+    getOpportunities: getOpportunities
+	};
+})
+.factory('Openings', function($http){
+  var getOpenings = function(opportunityId){
+    return $http({
+      method: 'GET',
+      url: '/api/opportunity/currentopenings/'+opportunityId
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  }  
+  var getAll = function (){
+    return $http({
+      method:'GET',
+      url: '/api/openings'
+    })
+    .then(function(resp){
+      return resp.data
+    })
+  }
+  var getOne = function(openingId){
+    return $http({
+      method: 'GET',
+      url: '/api/openings/'+openingId
     })
     .then(function(resp){
       return resp.data;
     });
   }
-
-  var getUser = function(userID){
+  var editOpening = function(opening){
     return $http({
-      method : 'GET',
-      url : '/api/user/'+userID
+      method: 'PUT',
+      url: '/api/openings/'+opening['_id'],
+      data : opening
     })
-    .then(function(res){
-      return res.data;
-    })
-  }  
-
-  var joinEvent = function (userID, EventId) {
+    .then(function (resp){
+      return resp;
+    });
+  };
+  var createOpening = function (newOpening) {
     return $http({
-      method : 'POST',
-      url : '/api/applyEvent',
-      data : { userId : userID, eventId : EventId }
+      method: 'PUT',
+      url: '/api/opportunity/addOpening/'+ newOpening['_opportunity'],
+      data: newOpening
     })
-    .then(function(res){
-      return res.data;
-    })
+    .then(function (resp) {
+      return resp;
+    });
   }
-
-	return {
-		getEvents: getEvents,
-    createEvent: createEvent,
-    getEvent: getEvent, 
-    getUser : getUser,
-    joinEvent : joinEvent
-	};
+  var applyToOpening = function (openingId){
+    return $http({
+      method:'PUT',
+      url: '/api/openings/apply/'+openingId
+    })
+    .then(function(resp){
+      return resp;
+    })
+  };
+  return {
+    getAll:getAll,
+    editOpening: editOpening,
+    createOpening: createOpening,
+    getOne: getOne,
+    getOpenings: getOpenings,
+    applyToOpening: applyToOpening
+  }
 })
+.factory('Organizations', function($http){
 
+  // a function to add an organization in the database
+  var createOrg = function(organization){
+    return $http({
+      method: 'POST',
+      url: '/api/organization',
+      data: organization
+    })
+    .then(function (resp) {
+      return resp;
+    });
+  };
+
+  // a function to get all organizations
+  var getAll = function(){
+    return $http({
+      method: 'GET',
+      url: '/api/organization'
+    })
+    .then(function (resp) {
+      return resp.data;
+    });
+  };
+
+  // a function to get single organization's info
+  var getOne = function(id){
+    return $http({
+      method: 'GET',
+      url: '/api/organization/'+id
+    })
+    .then(function (resp) {
+      return resp.data;
+    });
+  };
+
+  // a function to edit the info of an organization
+  var editProfile = function(organization){
+    return $http({
+      method: 'PUT',
+      url: '/api/organization/'+organization['_id'],
+      data : organization
+    })
+    .then(function (resp){
+      return resp;
+    });
+  };
+
+  // a function to add an opportunity to an organiztion
+  var addOpportunity = function(orgId, opportunityId){
+    return $http({
+      method: 'PUT',
+      url: '/api/organization/add/'+orgId,
+      data : {
+        opportunityId: opportunityId
+      }
+    })
+    .then(function (resp){
+      return resp;
+    });
+  };
+
+  // a function to close a finished opportunity that belongs to an organiztion
+  var closeOpportunity = function(orgId, opportunityId){
+    return $http({
+      method: 'PUT',
+      url: '/api/organization/close/'+orgId,
+      data : {
+        opportunityId: opportunityId
+      }
+    })
+    .then(function (resp){
+      return resp;
+    });
+  };
+
+  // a function to delete an existing organization
+  var deleteOne = function(id){
+    return $http({
+      method: 'DELETE',
+      url: '/api/organization/'+id
+    })
+    .then(function (resp){
+      return resp;
+    });
+  };
+
+  return {
+    createOrg: createOrg,
+    getAll: getAll,
+    getOne: getOne,
+    editProfile: editProfile,
+    addOpportunity: addOpportunity,
+    closeOpportunity: closeOpportunity,
+    deleteOne: deleteOne
+  };
+})
 .factory('Auth', function ($http, $location, $window) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
@@ -84,17 +302,19 @@ angular.module('Khitwa.services', [])
       data: user
     })
     .then(function (resp) {
-      return resp.data.token;
+      return resp.data;
     });
   };
 
   var isAuth = function () {
-    return !!$window.localStorage.getItem('com.Khitwa');
+    return !!$window.localStorage.getItem('com.VolunteerHub');
   };
 
   var signout = function () {
-    $window.localStorage.removeItem('com.Khitwa');
-    $location.path('/signin');
+    $window.localStorage.removeItem('com.VolunteerHub');
+    $window.localStorage.removeItem('userId');
+    window.userId = null;
+    $location.path('/');
   };
 
 
