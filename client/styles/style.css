@@ -121,7 +121,6 @@ input[type="password"] {
   color: #333
   }
 
-<<<<<<< HEAD
 .userPic {
   height: auto%;
   width: 300px;
@@ -178,7 +177,7 @@ color: #3e3f3a !important;
 input:-ms-input-placeholder {  
 color: #3e3f3a !important;  
 }
-=======
+
 
 
 .card {
@@ -419,4 +418,3 @@ color: #3e3f3a !important;
     margin-bottom: 17px;
 }
 
->>>>>>> d6b230eeac2f6521f708277af110f1ee8c59718f
